@@ -1,0 +1,4432 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API Backoffice ",
+    "description": "Crie, consulte e atualize contas além de consultar pendências e realizar a validação de dados.",
+    "contact": {
+      "name": "Acesse a documentação técnica",
+      "url": "https://docs.cedrotech.com/reference/customer"
+    },
+    "version": "v2"
+  },
+  "servers": [
+    {
+      "url": "https://sandbox.cedrotech.com/registration/backoffice_api/v2",
+      "description": "Servidor de Homologação"
+    }
+  ],
+  "paths": {
+    "/customer/account": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Criar Nova Conta",
+        "description": "Através deste recurso é possível criar uma conta para um cliente.",
+        "requestBody": {
+          "description": "Dados de identificação do Customer.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelBoolean"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/account/block": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Bloquear Conta",
+        "description": "Através deste recurso é possível iniciar o processo de bloqueio de conta para um cliente.",
+        "requestBody": {
+          "description": "Dados de identificação do Customer junto das informações sobre o bloqueio.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerBlockStatus"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerBlockStatus"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerBlockStatus"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelString"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Consultar Bloqueios De Conta",
+        "description": "Através deste recurso é possível consultar o histórico de bloqueio de conta de um cliente.",
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "query",
+            "description": "Identificador do Customer.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerBlockHistory"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/account/unlock": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Desbloquear Conta",
+        "description": "Através deste recurso é possível iniciar o processo de desbloqueio de conta para um cliente.",
+        "requestBody": {
+          "description": "Dados de identificação do Customer junto das informações sobre o desbloqueio.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerBlockStatus"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerBlockStatus"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerBlockStatus"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/account/finish": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Encerrar Conta",
+        "description": "Através deste recurso é possível iniciar o processo de encerramento de conta de um cliente.",
+        "requestBody": {
+          "description": "Dados de identificação do Customer junto das informações sobre o encerramento.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerFinishStatus"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerFinishStatus"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerFinishStatus"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelString"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Consultar Encerramento De Conta",
+        "description": "Através deste recurso é possível consultar o histórico de encerramento de conta de um cliente.",
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "query",
+            "description": "Identificador do Customer.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerFinishHistory"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/integration": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Reintegrar Cliente",
+        "description": "Através deste recurso é possível enviar novamente um cliente para integração.",
+        "requestBody": {
+          "description": "Dados de identificação do Customer.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/validation/reprocess": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Reprocessar Validação",
+        "description": "Através deste recurso é possível enviar um cliente novamente para validação de dados.",
+        "requestBody": {
+          "description": "Dados de identificação do Customer e da validação a ser reprocessada.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReprocessDataValidation"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReprocessDataValidation"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReprocessDataValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/integration/sincad": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Solicitar Processamento Da Integração Com Sincad",
+        "description": "Através deste recurso é possível enviar uma solicitação para processamento do status de integração de conta de um cliente no Sincad.",
+        "requestBody": {
+          "description": "Dados de identificação do Customer e da conta a ser integrada.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerSincadIntegrationStatus"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerSincadIntegrationStatus"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerSincadIntegrationStatus"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/continue/register": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Enviar Notificação Para O Cliente",
+        "description": "Através deste recurso é possível enviar uma notificação para continuar o cadastro.",
+        "requestBody": {
+          "description": "Dados de identificação do Customer.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/send_customer_view_event": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Enviar Evento De Atualização Da Visão De Clientes",
+        "description": "Através deste recurso é possível enviar evento para atualização da visão de clientes.",
+        "requestBody": {
+          "description": "Dados de identificação do Customer.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerIntegration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_pendency/approve": {
+      "post": {
+        "tags": [
+          "CustomerPendency"
+        ],
+        "summary": "Aprovar Pendências",
+        "description": "Através deste recurso é possível pré-aprovar ou pré-reprovar pendências de cadastro de um cliente.",
+        "requestBody": {
+          "description": "Dados da pendência a ser aprovada.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreApprovePendingViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreApprovePendingViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreApprovePendingViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelBureauPendencyTrackRecord"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_pendency/approve/confirm": {
+      "put": {
+        "tags": [
+          "CustomerPendency"
+        ],
+        "summary": "Confirmar Aprovação De Pendências",
+        "description": "Através deste recurso é possível confirmar a aprovação ou reprovação de pendências de cadastro de um cliente.",
+        "requestBody": {
+          "description": "Dados para realizar a confirmação de aprovação das pendências.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovePendingConfirmViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovePendingConfirmViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovePendingConfirmViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelBureauPendencyTrackRecord"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_pendency/update/approve": {
+      "post": {
+        "tags": [
+          "CustomerPendency"
+        ],
+        "summary": "Aprovar Pendências De Atualização",
+        "description": "Através deste recurso é possível aprovar ou reprovar pendências de atualização cadastral de um cliente.",
+        "requestBody": {
+          "description": "Dados da pendência a ser aprovada.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdatePendencyApprove"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdatePendencyApprove"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdatePendencyApprove"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelCustomerUpdatePendencyTrackRecord"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_pendency/update/pendency": {
+      "get": {
+        "tags": [
+          "CustomerPendency"
+        ],
+        "summary": "Consultar Pendências De Atualização",
+        "description": "Através deste recurso é possível consultar pendências de atualização cadastral de um cliente.",
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "query",
+            "description": "Identificador do Customer.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerUpdatePendencyTrackRecord"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_state": {
+      "get": {
+        "tags": [
+          "CustomerState"
+        ],
+        "summary": "Consultar Estados Do Cliente",
+        "description": "Através deste recurso é possível consultar o estado de um cliente.",
+        "parameters": [
+          {
+            "name": "register_step",
+            "in": "query",
+            "description": "Representa as etapas do cadastro de um cliente.\r\n\r\n0 - Preenchimento de dados (FILL)\r\n\r\n1 - Validação dos dados fornecidos (VALIDATION)\r\n\r\n2 - Integração com outros sistemas (INTEGRATION)\r\n\r\n4 - Cliente pronto (READY)\r\n\r\n8 - Cadastro cancelado (CANCEL)\r\n\r\n16 - Cadastro rejeitado (REJECTED)\r\n\r\n32 - Renovação do cadastro (RENEWAL)\r\n\r\n64 - Atualização do cadastro (UPDATE)\r\n\r\n128 - Cliente bloqueado (BLOCKED)\r\n\r\n256 - Cadastro finalizado (FINISHED)",
+            "schema": {
+              "$ref": "#/components/schemas/CustomerRegisterStep"
+            }
+          },
+          {
+            "name": "customer_id",
+            "in": "query",
+            "description": "Identificador do Customer.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelListCustomerState"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_state/pendency": {
+      "get": {
+        "tags": [
+          "CustomerState"
+        ],
+        "summary": "Consultar Pendências",
+        "description": "Através deste recurso é possível consultar pendências de cadastro de um cliente.",
+        "parameters": [
+          {
+            "name": "register_step",
+            "in": "query",
+            "description": "Representa as etapas do cadastro de um cliente.\r\n\r\n0 - Preenchimento de dados (FILL)\r\n\r\n1 - Validação dos dados fornecidos (VALIDATION)\r\n\r\n2 - Integração com outros sistemas (INTEGRATION)\r\n\r\n4 - Cliente pronto (READY)\r\n\r\n8 - Cadastro cancelado (CANCEL)\r\n\r\n16 - Cadastro rejeitado (REJECTED)\r\n\r\n32 - Renovação do cadastro (RENEWAL)\r\n\r\n64 - Atualização do cadastro (UPDATE)\r\n\r\n128 - Cliente bloqueado (BLOCKED)\r\n\r\n256 - Cadastro finalizado (FINISHED)",
+            "schema": {
+              "$ref": "#/components/schemas/CustomerRegisterStep"
+            }
+          },
+          {
+            "name": "customer_id",
+            "in": "query",
+            "description": "Identificador do Customer.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelListBureauPendencyTrackRecordLookUp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_state/filter": {
+      "get": {
+        "tags": [
+          "CustomerState"
+        ],
+        "summary": "Consultar Estado",
+        "description": "Através deste recurso é possível consultar estados de um cliente adicionado filtro por cpf/cnpj.",
+        "parameters": [
+          {
+            "name": "cpf_cnpj",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "customer_state",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "only_renewed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "customer_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CustomerType"
+              }
+            }
+          },
+          {
+            "name": "schema_ids",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "search_term",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_index",
+            "in": "query",
+            "description": "Índice da página.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Tamanho da página. O valor padrão é 10 e o valor máximo é 50.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Campo pelo qual os resultados serão ordenados.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseModelCustomerStateResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_state/change_state": {
+      "post": {
+        "tags": [
+          "CustomerState"
+        ],
+        "summary": "Alterar Estado",
+        "description": "Através deste recurso é possível alterar o estado de um cliente.",
+        "requestBody": {
+          "description": "Informações de referência do cliente junto do novo estado que ele irá assumir.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerChangeState"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerChangeState"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerChangeState"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_state/finished": {
+      "get": {
+        "tags": [
+          "CustomerState"
+        ],
+        "summary": "Listar Cadastros Concluídos",
+        "description": "Através deste recurso é possível listar e filtrar cadastros concluídos.",
+        "parameters": [
+          {
+            "name": "cpf_cnpj",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "customer_state",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "only_renewed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "customer_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CustomerType"
+              }
+            }
+          },
+          {
+            "name": "schema_ids",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "search_term",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_index",
+            "in": "query",
+            "description": "Índice da página.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Tamanho da página. O valor padrão é 10 e o valor máximo é 50.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Campo pelo qual os resultados serão ordenados.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseModelSimpleCustomerViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_state/unfinished": {
+      "get": {
+        "tags": [
+          "CustomerState"
+        ],
+        "summary": "Listar Cadastros Não Concluídos",
+        "description": "Através deste recurso é possível listar e filtrar cadastros não concluídos.",
+        "parameters": [
+          {
+            "name": "cpf_cnpj",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "customer_state",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "only_renewed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "customer_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CustomerType"
+              }
+            }
+          },
+          {
+            "name": "schema_ids",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "search_term",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_index",
+            "in": "query",
+            "description": "Índice da página.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Tamanho da página. O valor padrão é 10 e o valor máximo é 50.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Campo pelo qual os resultados serão ordenados.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseModelSimpleCustomerViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_state/expired_renewed": {
+      "get": {
+        "tags": [
+          "CustomerState"
+        ],
+        "summary": "Listar Cadastros Expirados",
+        "description": "Através deste recurso é possível listar e filtrar cadastros para renovação expirados.",
+        "parameters": [
+          {
+            "name": "cpf_cnpj",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "customer_state",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "only_renewed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "customer_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CustomerType"
+              }
+            }
+          },
+          {
+            "name": "schema_ids",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "search_term",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_index",
+            "in": "query",
+            "description": "Índice da página.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Tamanho da página. O valor padrão é 10 e o valor máximo é 50.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Campo pelo qual os resultados serão ordenados.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseModelSimpleCustomerViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_state/renewed": {
+      "get": {
+        "tags": [
+          "CustomerState"
+        ],
+        "summary": "Listar Cadastros Renovados",
+        "description": "Através deste recurso é possível listar e filtrar cadastros renovados.",
+        "parameters": [
+          {
+            "name": "cpf_cnpj",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "customer_state",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "only_renewed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "customer_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CustomerType"
+              }
+            }
+          },
+          {
+            "name": "schema_ids",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "search_term",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_index",
+            "in": "query",
+            "description": "Índice da página.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Tamanho da página. O valor padrão é 10 e o valor máximo é 50.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Campo pelo qual os resultados serão ordenados.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseModelSimpleCustomerViewModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_state/aggregated": {
+      "get": {
+        "tags": [
+          "CustomerState"
+        ],
+        "summary": "Consultar Cadastros Agrupados Pela Persona",
+        "description": "Através deste recurso é possível consultar uma lista de persons criados e seus cadastros agregados.",
+        "parameters": [
+          {
+            "name": "cpf_cnpj",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "customer_state",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "only_renewed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "customer_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CustomerType"
+              }
+            }
+          },
+          {
+            "name": "schema_ids",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "search_term",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_index",
+            "in": "query",
+            "description": "Índice da página.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Tamanho da página. O valor padrão é 10 e o valor máximo é 50.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Campo pelo qual os resultados serão ordenados.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponseModelPersonCustomerStateView"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Servidor incapaz de processar a requisição."
+          }
+        }
+      }
+    },
+    "/customer_update_validation": {
+      "get": {
+        "tags": [
+          "CustomerUpdateValidation"
+        ],
+        "summary": "Consultar Campos Para Validação De Atualização Cadastral",
+        "description": "Através deste recurso é possível consultar quais campos devem ser validados em uma alteração cadastral.",
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerUpdateValidateFields"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CustomerUpdateValidation"
+        ],
+        "summary": "Cadastrar Campos Para Validação De Atualização Cadastral",
+        "description": "Através deste recurso é possível cadastrar campos que devem ser validados em uma alteração cadastral.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdateValidateFields"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdateValidateFields"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdateValidateFields"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer_update_validation/{id}": {
+      "get": {
+        "tags": [
+          "CustomerUpdateValidation"
+        ],
+        "summary": "Consultar Validação De Atualização Cadastral Por ID",
+        "description": "Através deste recurso é possível consultar os detalhes de uma validação de alteração cadastral através do seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador da validação de atualização.",
+            "required": true,
+            "schema": {
+              "maxLength": 24,
+              "minLength": 24,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerUpdateValidateFields"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "CustomerUpdateValidation"
+        ],
+        "summary": "Atualizar Campos Para Validação De Atualização Cadastral",
+        "description": "Através deste recurso é possível alterar campos que devem ser validados em uma alteração cadastral.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id Validação de atualização.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Dados da pendência de atualização cadastral a ser atualizada.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdateValidateFields"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdateValidateFields"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerUpdateValidateFields"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelCustomerUpdateValidateFields"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "CustomerUpdateValidation"
+        ],
+        "summary": "Excluir Campos Para Validação De Atualização Cadastra",
+        "description": "Através deste recurso é possível excluir campos que devem ser validados em uma alteração cadastral.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id Validação de atualização.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelBoolean"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Consultar Clientes Por Estado",
+        "description": "Através deste recurso é possível consultar a quantidade de clientes por estado.",
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardViewModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/person": {
+      "get": {
+        "tags": [
+          "Person"
+        ],
+        "summary": "Consultar Uma Persona Criada",
+        "description": "Através deste recurso é possível consultar uma persona.",
+        "parameters": [
+          {
+            "name": "document",
+            "in": "query",
+            "description": "Documento de indentificação da Persona.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelPersonViewModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Servidor incapaz de processar a requisição.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/person/view/{id}": {
+      "post": {
+        "tags": [
+          "Person"
+        ],
+        "summary": "Consultar Dados Cadastrais De Uma Persona",
+        "description": "Através deste recurso é possível consultar dados específicos dos cadastros de uma persona.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador da persona.",
+            "required": true,
+            "schema": {
+              "maxLength": 24,
+              "minLength": 24,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Mapeamento dos campos que serão resgatados na consulta.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelListDictionaryStringObject"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Solicitação processada com sucesso, sem conteúdo para retornar."
+          }
+        }
+      }
+    },
+    "/process/inprogress": {
+      "get": {
+        "tags": [
+          "Process"
+        ],
+        "summary": "Consultar Protocolo Ativo De Um Cliente",
+        "description": "Através deste recurso é possível consultar um protocolo ativo de um cliente.",
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "query",
+            "description": "Identificador do Customer.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessViewModel"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Solicitação processada com sucesso, sem conteúdo para retornar."
+          }
+        }
+      }
+    },
+    "/process": {
+      "get": {
+        "tags": [
+          "Process"
+        ],
+        "summary": "Consultar Protocolos De Um Cliente",
+        "description": "Através deste recurso é possível consultar os protocolos de um cliente.",
+        "parameters": [
+          {
+            "name": "customer_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "protocol",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Define os tipos de processos disponíveis no sistema.",
+            "schema": {
+              "$ref": "#/components/schemas/ProcessTypeEnum"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Define os status disponíveis para um processo.",
+            "schema": {
+              "$ref": "#/components/schemas/ProcessStatusEnum"
+            }
+          },
+          {
+            "name": "page_index",
+            "in": "query",
+            "description": "Índice da página.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Tamanho da página. O valor padrão é 10 e o valor máximo é 50.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Campo pelo qual os resultados serão ordenados.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessResponseModel"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Solicitação processada com sucesso, sem conteúdo para retornar."
+          }
+        }
+      }
+    },
+    "/user_view/{id}": {
+      "put": {
+        "tags": [
+          "UserView"
+        ],
+        "summary": "Atualizar Campos Para Visão De Usuário",
+        "description": "Através deste recurso é possível alterar dados da visão de usuário.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Dados para ajustar a visão de usuário.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDataScopeView"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDataScopeView"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDataScopeView"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelRegisterDataScopeView"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelRegisterDataScopeView"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelRegisterDataScopeView"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Solicitação processada com sucesso, sem conteúdo para retornar."
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação."
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "UserView"
+        ],
+        "summary": "Consultar Campos Para Visão De Usuário",
+        "description": "Através deste recurso é possível consultar dados da visão de usuário.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelRegisterDataScopeView"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelRegisterDataScopeView"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelRegisterDataScopeView"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModelTModel"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Solicitação processada com sucesso, sem conteúdo para retornar."
+          },
+          "500": {
+            "description": "Erro interno do servidor. Ocorreu um problema inesperado ao processar a solicitação."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApprovePendingConfirmViewModel": {
+        "type": "object",
+        "properties": {
+          "bureau_pendency_track_record_id": {
+            "type": "string",
+            "description": "O identificador da pendência associada.\r\nEste campo pode ser utilizado para referenciar o registro da pendência.",
+            "nullable": true
+          },
+          "approved": {
+            "type": "boolean",
+            "description": "Indica se a pendência foi aprovada."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Motivo geral da aprovação ou reprovação.\r\nEste campo pode ser utilizado para fornecer detalhes sobre a decisão.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa o modelo de visualização para confirmação de aprovação de pendências.\r\nContém informações sobre o registro de pendência, status de aprovação e razão."
+      },
+      "BlockReason": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "type": "integer",
+        "description": "Motivos possíveis para o bloqueio de um cliente.",
+        "format": "int32"
+      },
+      "BureauPendencyItemTrackRecord": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "field": {
+            "type": "string",
+            "nullable": true
+          },
+          "list_pending": {
+            "type": "string",
+            "nullable": true
+          },
+          "query_source_status": {
+            "type": "boolean"
+          },
+          "query_source": {
+            "type": "string",
+            "nullable": true
+          },
+          "similarity": {
+            "type": "number",
+            "format": "double"
+          },
+          "pending_type": {
+            "$ref": "#/components/schemas/PendingTypeEnum"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CustomerPendencyStatus"
+          },
+          "approved": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BureauPendencyTrackRecord": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "O identificador único do registro.\r\nEste campo é utilizado como a chave primária no banco de dados.",
+            "nullable": true
+          },
+          "correlation_id": {
+            "type": "string",
+            "description": "O identificador de correlação associado ao registro.\r\nUtilizado para rastrear eventos relacionados a esta pendência.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "O identificador do cliente.\r\nEste campo pode ser utilizado para associar o registro a um cliente específico.",
+            "nullable": true
+          },
+          "pendings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BureauPendencyItemTrackRecord"
+            },
+            "description": "As pendências associadas ao registro.\r\nUma lista que contém os detalhes dos itens de pendência.",
+            "nullable": true
+          },
+          "approvers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PendencyApproveAudit"
+            },
+            "description": "Os aprovadores associados às pendências.\r\nUma lista que contém os detalhes dos aprovadores que participaram do processo.",
+            "nullable": true
+          },
+          "approval_confirm": {
+            "type": "boolean",
+            "description": "Indica se a aprovação foi confirmada."
+          },
+          "approved": {
+            "type": "boolean",
+            "description": "Indica se as pendências foram aprovadas."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Motivo geral da reprovação.\r\nEste campo pode ser utilizado para fornecer detalhes sobre a decisão.",
+            "nullable": true
+          },
+          "start_time": {
+            "type": "string",
+            "description": "A data e hora de início do acompanhamento de pendências.",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "A data e hora de término do acompanhamento de pendências.\r\nEste campo é opcional e pode ser nulo se ainda não houver um término.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "id_call_manager": {
+            "type": "string",
+            "description": "O identificador de correlação de validação.\r\nUtilizado para rastrear validações associadas a esta pendência.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um registro de acompanhamento de pendências de um cliente.\r\nContém informações sobre a correlação, cliente, pendências e status de aprovação."
+      },
+      "BureauPendencyTrackRecordLookUp": {
+        "type": "object",
+        "properties": {
+          "correlation_id": {
+            "type": "string",
+            "description": "O identificador do estado do cliente.\r\nEste campo é utilizado como a chave primária no banco de dados.",
+            "format": "uuid"
+          },
+          "current_state": {
+            "type": "string",
+            "description": "O estado atual do cliente.\r\nEste campo indica em qual fase o cliente se encontra no processo.",
+            "nullable": true
+          },
+          "customer_validation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerValidationEntity"
+            },
+            "description": "As validações associadas ao cliente.\r\nUma lista que contém as entidades de validação do cliente.",
+            "nullable": true
+          },
+          "customer": {
+            "$ref": "#/components/schemas/CustomerEntity"
+          },
+          "customer_register_step": {
+            "$ref": "#/components/schemas/CustomerRegisterStep"
+          },
+          "customer_step_audits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerStepAudit"
+            },
+            "description": "As etapas de auditoria do cadastro do cliente.\r\nUma lista que contém os registros de auditoria das etapas do cadastro.",
+            "nullable": true
+          },
+          "connect_integration_audits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConnectIntegrationAudit"
+            },
+            "description": "As auditorias de integração do cliente.\r\nUma lista que contém os registros de auditoria das integrações do cliente.",
+            "nullable": true
+          },
+          "create_at_dt": {
+            "type": "string",
+            "description": "A data e hora em que o registro foi criado.",
+            "format": "date-time"
+          },
+          "last_updated_at_dt": {
+            "type": "string",
+            "description": "A data e hora da última atualização do registro.",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "integer",
+            "description": "A versão do registro.\r\nUtilizado para controle de versão das alterações realizadas.",
+            "format": "int32"
+          },
+          "sincad_integration_status": {
+            "$ref": "#/components/schemas/SincadStatus"
+          },
+          "customer_integration_steps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerIntegrationStep"
+            },
+            "description": "A lista de etapas de integração.\r\nContém informações sobre as etapas de integração do cliente.",
+            "nullable": true
+          },
+          "bureau_pendency_track_record": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BureauPendencyTrackRecord"
+            },
+            "description": "A lista de registros de acompanhamento de pendências.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa uma busca de registros de acompanhamento de pendências.\r\nHerda de Registration.Backoffice.Domain.Entities.CustomerState e contém uma lista de registros de pendências."
+      },
+      "ConnectIntegrationAudit": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerBlockHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "O identificador único do histórico.",
+            "nullable": true
+          },
+          "correlation_id": {
+            "type": "string",
+            "description": "O identificador de correlação associado ao histórico.\r\nUtilizado para rastrear eventos relacionados a este bloqueio.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "O identificador do cliente.\r\nEste campo pode ser utilizado para associar o histórico a um cliente específico.",
+            "nullable": true
+          },
+          "reason": {
+            "$ref": "#/components/schemas/BlockReason"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição adicional sobre o bloqueio.\r\nEste campo pode ser utilizado para fornecer mais detalhes sobre o motivo do bloqueio.",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "description": "A data e hora em que o histórico foi criado.\r\nEste campo rastreia quando o registro de bloqueio foi gerado.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Histórico de bloqueio de um cliente.\r\nContém informações sobre o motivo do bloqueio e os dados associados."
+      },
+      "CustomerBlockStatus": {
+        "type": "object",
+        "properties": {
+          "correlation_id": {
+            "type": "string",
+            "description": "Identificador de correlação.\r\nUtilizado para correlacionar eventos relacionados entre si.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Identificador do cliente.\r\nEste identificador pode ser utilizado para associar o evento a um cliente específico no sistema.",
+            "nullable": true
+          },
+          "reason": {
+            "$ref": "#/components/schemas/BlockReason"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição adicional sobre o bloqueio.\r\nEste campo pode ser utilizado para fornecer mais detalhes sobre o motivo do bloqueio.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Status de bloqueio de um cliente.\r\nHerda de Registration.Backoffice.Domain.Model.EventStateBase que serve como um modelo básico para eventos de integração do cliente."
+      },
+      "CustomerChangeState": {
+        "type": "object",
+        "properties": {
+          "correlation_id": {
+            "type": "string",
+            "description": "Identificador de correlação.\r\nUtilizado para correlacionar eventos relacionados entre si.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Identificador do cliente.\r\nEste identificador pode ser utilizado para associar o evento a um cliente específico no sistema.",
+            "nullable": true
+          },
+          "new_state": {
+            "$ref": "#/components/schemas/StateEnum"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa uma alteração no estado de um cliente.\r\nHerda de Registration.Backoffice.Domain.Model.EventStateBase e contém informações sobre o novo estado do cliente."
+      },
+      "CustomerEntity": {
+        "type": "object",
+        "properties": {
+          "customer_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "document": {
+            "type": "string",
+            "nullable": true
+          },
+          "customer_type": {
+            "$ref": "#/components/schemas/CustomerType"
+          },
+          "renewal_dt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "is_change_register": {
+            "type": "boolean",
+            "description": "Sinaliza que cadastro está em alteracao ou renovacao"
+          },
+          "person_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "schema_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "internal_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "CustomerFinishHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "O identificador único do histórico.",
+            "nullable": true
+          },
+          "correlation_id": {
+            "type": "string",
+            "description": "O identificador de correlação associado ao histórico.\r\nUtilizado para rastrear eventos relacionados a este histórico de encerramento.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "O identificador do cliente.",
+            "nullable": true
+          },
+          "reason": {
+            "$ref": "#/components/schemas/FinishReason"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição adicional sobre o encerramento.\r\nEste campo pode ser utilizado para fornecer mais detalhes sobre o motivo do encerramento.",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "description": "A data e hora em que o histórico foi criado.\r\nEste campo rastreia quando o registro de encerramento foi gerado.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa o histórico de encerramento dos clientes.\r\nContém informações sobre o motivo do encerramento e os dados associados."
+      },
+      "CustomerFinishStatus": {
+        "type": "object",
+        "properties": {
+          "correlation_id": {
+            "type": "string",
+            "description": "Identificador de correlação.\r\nUtilizado para correlacionar eventos relacionados entre si.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Identificador do cliente.\r\nEste identificador pode ser utilizado para associar o evento a um cliente específico no sistema.",
+            "nullable": true
+          },
+          "reason": {
+            "$ref": "#/components/schemas/FinishReason"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição adicional sobre o encerramento.\r\nEste campo pode ser utilizado para fornecer mais detalhes sobre o motivo do encerramento.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Status de encerramento de um cliente.\r\nHerda de Registration.Backoffice.Domain.Model.EventStateBase que serve como um modelo básico para eventos de integração do cliente."
+      },
+      "CustomerIntegration": {
+        "type": "object",
+        "properties": {
+          "correlation_id": {
+            "type": "string",
+            "description": "Identificador de correlação.\r\nUtilizado para correlacionar eventos relacionados entre si.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Identificador do cliente.\r\nEste identificador pode ser utilizado para associar o evento a um cliente específico no sistema.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa a integração do cliente com o sistema.\r\nHerda de Registration.Backoffice.Domain.Model.EventStateBase que serve como um modelo básico para eventos de integração do cliente."
+      },
+      "CustomerIntegrationStep": {
+        "type": "object",
+        "properties": {
+          "integration_step": {
+            "$ref": "#/components/schemas/IntegrationStep"
+          },
+          "integration_status": {
+            "$ref": "#/components/schemas/IntegrationStatus"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "event_dt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerPendencyItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "O identificador do item da pendência.\r\nEste campo pode ser utilizado para referenciar o item específico.",
+            "nullable": true
+          },
+          "approved": {
+            "type": "boolean",
+            "description": "Indica se o item da pendência foi aprovado."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Descrição da aprovação ou reprovação.\r\nEste campo pode ser utilizado para fornecer detalhes sobre a decisão.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um item de pendência associado a um cliente.\r\nContém informações sobre o status de aprovação e a descrição da decisão."
+      },
+      "CustomerPendencyStatus": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "CustomerRegisterStep": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "type": "integer",
+        "description": "Representa as etapas do cadastro de um cliente.\r\n\r\n0 - Preenchimento de dados (FILL)\r\n\r\n1 - Validação dos dados fornecidos (VALIDATION)\r\n\r\n2 - Integração com outros sistemas (INTEGRATION)\r\n\r\n4 - Cliente pronto (READY)\r\n\r\n8 - Cadastro cancelado (CANCEL)\r\n\r\n16 - Cadastro rejeitado (REJECTED)\r\n\r\n32 - Renovação do cadastro (RENEWAL)\r\n\r\n64 - Atualização do cadastro (UPDATE)\r\n\r\n128 - Cliente bloqueado (BLOCKED)\r\n\r\n256 - Cadastro finalizado (FINISHED)",
+        "format": "int32"
+      },
+      "CustomerSincadIntegrationStatus": {
+        "type": "object",
+        "properties": {
+          "correlation_id": {
+            "type": "string",
+            "description": "Identificador de correlação.\r\nUtilizado para correlacionar eventos relacionados entre si.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Identificador do cliente.\r\nEste identificador pode ser utilizado para associar o evento a um cliente específico no sistema.",
+            "nullable": true
+          },
+          "account": {
+            "type": "string",
+            "description": "Conta associada ao cliente integrado.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa o status da integração do cliente com o Sincad.\r\nHerda de Registration.Backoffice.Domain.Model.EventStateBase que serve como um modelo básico para eventos de integração do cliente."
+      },
+      "CustomerState": {
+        "type": "object",
+        "properties": {
+          "correlation_id": {
+            "type": "string",
+            "description": "O identificador do estado do cliente.\r\nEste campo é utilizado como a chave primária no banco de dados.",
+            "format": "uuid"
+          },
+          "current_state": {
+            "type": "string",
+            "description": "O estado atual do cliente.\r\nEste campo indica em qual fase o cliente se encontra no processo.",
+            "nullable": true
+          },
+          "customer_validation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerValidationEntity"
+            },
+            "description": "As validações associadas ao cliente.\r\nUma lista que contém as entidades de validação do cliente.",
+            "nullable": true
+          },
+          "customer": {
+            "$ref": "#/components/schemas/CustomerEntity"
+          },
+          "customer_register_step": {
+            "$ref": "#/components/schemas/CustomerRegisterStep"
+          },
+          "customer_step_audits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerStepAudit"
+            },
+            "description": "As etapas de auditoria do cadastro do cliente.\r\nUma lista que contém os registros de auditoria das etapas do cadastro.",
+            "nullable": true
+          },
+          "connect_integration_audits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConnectIntegrationAudit"
+            },
+            "description": "As auditorias de integração do cliente.\r\nUma lista que contém os registros de auditoria das integrações do cliente.",
+            "nullable": true
+          },
+          "create_at_dt": {
+            "type": "string",
+            "description": "A data e hora em que o registro foi criado.",
+            "format": "date-time"
+          },
+          "last_updated_at_dt": {
+            "type": "string",
+            "description": "A data e hora da última atualização do registro.",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "integer",
+            "description": "A versão do registro.\r\nUtilizado para controle de versão das alterações realizadas.",
+            "format": "int32"
+          },
+          "sincad_integration_status": {
+            "$ref": "#/components/schemas/SincadStatus"
+          },
+          "customer_integration_steps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerIntegrationStep"
+            },
+            "description": "A lista de etapas de integração.\r\nContém informações sobre as etapas de integração do cliente.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa o estado atual de um cliente.\r\nContém informações sobre o estado do cliente, validações, auditorias e metadados de criação e atualização."
+      },
+      "CustomerStateResponseModel": {
+        "type": "object",
+        "properties": {
+          "customer_steps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerStateViewModel"
+            },
+            "description": "As etapas do cadastro do cliente.\r\nUma lista que contém os modelos de visualização dos estados de clientes.",
+            "nullable": true
+          },
+          "total_records": {
+            "type": "integer",
+            "description": "O total de registros disponíveis.\r\nIndica quantos registros foram encontrados na consulta.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa o modelo de resposta para a consulta dos estados de clientes.\r\nContém uma lista de etapas de cadastro de clientes e o total de registros disponíveis."
+      },
+      "CustomerStateViewModel": {
+        "type": "object",
+        "properties": {
+          "correlation_id": {
+            "type": "string",
+            "description": "O identificador de correlação.\r\nUtilizado para rastrear eventos relacionados ao cliente.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "O identificador do cliente.\r\nEste campo pode ser utilizado para referenciar um cliente específico no sistema.",
+            "nullable": true
+          },
+          "current_state": {
+            "type": "string",
+            "description": "O estado atual do cliente.\r\nIndica em que fase o cliente se encontra no processo.",
+            "nullable": true
+          },
+          "customer_register_step": {
+            "$ref": "#/components/schemas/CustomerRegisterStep"
+          },
+          "create_at_dt": {
+            "type": "string",
+            "description": "A data e hora em que o cliente foi criado no sistema.",
+            "format": "date-time"
+          },
+          "last_updated_at_dt": {
+            "type": "string",
+            "description": "A data e hora da última atualização do registro do cliente.",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "integer",
+            "description": "A versão do registro do cliente.\r\nUtilizado para controle de versão das alterações realizadas.",
+            "format": "int32"
+          },
+          "sincad_integration_status": {
+            "$ref": "#/components/schemas/SincadStatus"
+          },
+          "customer_integration_step": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerIntegrationStep"
+            },
+            "description": "A lista de etapas de integração do cliente.\r\nContém informações sobre as etapas que o cliente passou durante a integração.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa o modelo de visualização do estado de um cliente.\r\nContém informações detalhadas sobre o estado atual, etapas de cadastro e metadados de criação e atualização."
+      },
+      "CustomerStepAudit": {
+        "type": "object",
+        "properties": {
+          "customer_track": {
+            "$ref": "#/components/schemas/CustomerRegisterStep"
+          },
+          "event_dt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "source": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_call_manager": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerType": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "description": "Define os tipos de clientes.",
+        "format": "int32"
+      },
+      "CustomerUpdatePendencyApprove": {
+        "type": "object",
+        "properties": {
+          "customer_update_pendency_track_record_id": {
+            "type": "string",
+            "description": "O identificador da pendência de atualização associada.\r\nEste campo pode ser utilizado para referenciar o registro da pendência.",
+            "nullable": true
+          },
+          "approved": {
+            "type": "boolean",
+            "description": "Indica se a pendência foi aprovada."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Descrição da aprovação ou reprovação.\r\nEste campo pode ser utilizado para fornecer detalhes sobre a decisão.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa uma aprovação ou reprovação de uma pendência de atualização de cliente.\r\nContém informações sobre o registro de pendência, status de aprovação e razão."
+      },
+      "CustomerUpdatePendencyTrackRecord": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "O identificador único do registro.",
+            "nullable": true
+          },
+          "correlation_id": {
+            "type": "string",
+            "description": "O identificador de correlação associado ao registro.\r\nUtilizado para rastrear eventos relacionados a esta pendência.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "O identificador do cliente.\r\nEste campo pode ser utilizado para associar o registro a um cliente específico.",
+            "nullable": true
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": { },
+            "description": "As pendências associadas ao registro.\r\nUm dicionário que pode conter diferentes propriedades de pendências.",
+            "nullable": true
+          },
+          "approvers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PendencyApproveAudit"
+            },
+            "description": "Os aprovadores associados às pendências.\r\nUma lista que contém os detalhes dos aprovadores que participaram do processo.",
+            "nullable": true
+          },
+          "approved": {
+            "type": "boolean",
+            "description": "Indica se as pendências foram aprovadas."
+          },
+          "start_time": {
+            "type": "string",
+            "description": "A data e hora de início do acompanhamento de pendências.",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "A data e hora de término do acompanhamento de pendências.",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Registro de acompanhamento de pendências de atualização de um cliente.\r\nContém informações sobre a correlação, cliente, pendências e status de aprovação."
+      },
+      "CustomerUpdateValidateFields": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "O identificador da validação de atualização.\r\nEste campo é utilizado como a chave primária no banco de dados.",
+            "nullable": true
+          },
+          "field": {
+            "type": "string",
+            "description": "O nome do campo que está sendo validado.",
+            "nullable": true
+          },
+          "status": {
+            "type": "boolean",
+            "description": "O status da validação.\r\nIndica se a validação foi aprovada ou não."
+          },
+          "ip": {
+            "type": "string",
+            "description": "O endereço IP do usuário que realizou a validação.\r\nEste campo pode ser utilizado para rastreamento.",
+            "nullable": true
+          },
+          "user_name": {
+            "type": "string",
+            "description": "O nome do usuário que realizou a validação.\r\nEste campo pode ser utilizado para identificar quem fez a alteração.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa os campos de validação associados a uma atualização de cliente.\r\nContém informações sobre o campo a ser validado, seu status, e detalhes do usuário que realizou a atualização."
+      },
+      "CustomerValidationAudit": {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "classification_dt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "user_ip": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerValidationEntity": {
+        "type": "object",
+        "properties": {
+          "approval": {
+            "type": "boolean"
+          },
+          "classification_level": {
+            "$ref": "#/components/schemas/CustomerValidationLevel"
+          },
+          "classification_audit": {
+            "$ref": "#/components/schemas/CustomerValidationAudit"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerValidationLevel": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "DashboardStateViewModel": {
+        "type": "object",
+        "properties": {
+          "state_name": {
+            "type": "string",
+            "description": "Descrição do estado do cliente.",
+            "nullable": true
+          },
+          "total": {
+            "type": "integer",
+            "description": "Quantidade de clientes no estado.",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modelo do estado no dashboard."
+      },
+      "DashboardViewModel": {
+        "type": "object",
+        "properties": {
+          "states": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DashboardStateViewModel"
+            },
+            "description": "Lista de estados e clientes relacionados.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modelo do dashboard."
+      },
+      "ErrorInfo": {
+        "type": "object",
+        "properties": {
+          "error_id": {
+            "type": "string",
+            "description": "Identificador único do erro. Gera automaticamente um GUID ao criar um novo erro.",
+            "format": "uuid",
+            "nullable": true
+          },
+          "status_code": {
+            "$ref": "#/components/schemas/HttpStatusCode"
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensagem explicativa sobre o erro ocorrido.",
+            "nullable": true
+          },
+          "details": {
+            "type": "string",
+            "description": "Detalhes adicionais sobre o erro, fornecendo mais contexto ou informações específicas sobre o problema.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FinishReason": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "description": "Possíveis motivos para a finalização do cadastro de um cliente.",
+        "format": "int32"
+      },
+      "HttpStatusCode": {
+        "enum": [
+          100,
+          101,
+          102,
+          103,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          226,
+          300,
+          301,
+          302,
+          303,
+          304,
+          305,
+          306,
+          307,
+          308,
+          400,
+          401,
+          402,
+          403,
+          404,
+          405,
+          406,
+          407,
+          408,
+          409,
+          410,
+          411,
+          412,
+          413,
+          414,
+          415,
+          416,
+          417,
+          421,
+          422,
+          423,
+          424,
+          426,
+          428,
+          429,
+          431,
+          451,
+          500,
+          501,
+          502,
+          503,
+          504,
+          505,
+          506,
+          507,
+          508,
+          510,
+          511
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "IntegrationStatus": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "IntegrationStep": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "PaginatedResponseModelCustomerStateResponseModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerStateResponseModel"
+            },
+            "description": "Os dados retornados na resposta.",
+            "nullable": true
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PaginationMetadata"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa as informações de alteração de um cliente."
+      },
+      "PaginatedResponseModelPersonCustomerStateView": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonCustomerStateView"
+            },
+            "description": "Os dados retornados na resposta.",
+            "nullable": true
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PaginationMetadata"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa as informações de alteração de um cliente."
+      },
+      "PaginatedResponseModelSimpleCustomerViewModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SimpleCustomerViewModel"
+            },
+            "description": "Os dados retornados na resposta.",
+            "nullable": true
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PaginationMetadata"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa as informações de alteração de um cliente."
+      },
+      "PaginationMetadata": {
+        "type": "object",
+        "properties": {
+          "page_index": {
+            "type": "integer",
+            "description": "Índice da página atual.",
+            "format": "int32"
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "Tamanho da página.",
+            "format": "int32"
+          },
+          "total_count": {
+            "type": "integer",
+            "description": "Contagem total de itens.",
+            "format": "int32"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "Número total de páginas.",
+            "format": "int32"
+          },
+          "has_next_page": {
+            "type": "boolean",
+            "description": "Indica se há uma próxima página.",
+            "readOnly": true
+          },
+          "has_previous_page": {
+            "type": "boolean",
+            "description": "Indica se há uma página anterior.",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Classe que representa os metadados de paginação."
+      },
+      "PendencyApproveAudit": {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "ip": {
+            "type": "string",
+            "nullable": true
+          },
+          "agent": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "create_dt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PendingTypeEnum": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "PersonCustomerStateView": {
+        "type": "object",
+        "properties": {
+          "person_id": {
+            "type": "string",
+            "description": "O identificador da pessoa.\r\nEste campo pode ser utilizado para referenciar a pessoa específica.",
+            "nullable": true
+          },
+          "internal_id": {
+            "type": "integer",
+            "description": "O identificador interno associado à pessoa.\r\nEste campo é opcional e pode ser nulo.",
+            "format": "int64",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "O nome da pessoa.\r\nEste campo contém o nome completo do cliente.",
+            "nullable": true
+          },
+          "document": {
+            "type": "string",
+            "description": "O documento de identificação da pessoa.\r\nEste campo pode ser utilizado para verificar a identidade do cliente.",
+            "nullable": true
+          },
+          "customer_states": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerState"
+            },
+            "description": "A lista de estados de cliente associados à pessoa.\r\nContém os registros de estado do cliente.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa a visualização do estado de um cliente do tipo pessoa.\r\nContém informações sobre a pessoa e os estados associados a seus registros de cliente."
+      },
+      "PersonView": {
+        "type": "object",
+        "properties": {
+          "person_id": {
+            "type": "string",
+            "description": "ID da persona.",
+            "nullable": true
+          },
+          "customer_type": {
+            "$ref": "#/components/schemas/CustomerType"
+          },
+          "customer_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Lista de IDs dos Clientes associados à Persona.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa uma pessoa no contexto do escopo de dados de registro."
+      },
+      "PersonViewModel": {
+        "type": "object",
+        "properties": {
+          "person_id": {
+            "type": "string",
+            "description": "ID da persona.",
+            "nullable": true
+          },
+          "internal_id": {
+            "type": "integer",
+            "description": "ID sequencial da persona.",
+            "format": "int64",
+            "nullable": true
+          },
+          "customer_type": {
+            "$ref": "#/components/schemas/CustomerType"
+          },
+          "user_id": {
+            "type": "string",
+            "description": "ID do usuário associado à persona.",
+            "nullable": true
+          },
+          "customer_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Lista de IDs dos clientes associados à persona.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modelo de persona."
+      },
+      "PreApprovePendingViewModel": {
+        "type": "object",
+        "properties": {
+          "bureau_pendency_track_record_id": {
+            "type": "string",
+            "description": "O identificador da pendência associada.\r\nEste campo pode ser utilizado para referenciar o registro da pendência.",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerPendencyItem"
+            },
+            "description": "Os itens da pendência.\r\nUma coleção que contém os detalhes dos itens associados à pendência.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa o modelo de visualização para pré-aprovação de pendências.\r\nContém informações sobre o registro de pendência e os itens associados."
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "ProcessResponseModel": {
+        "type": "object",
+        "properties": {
+          "processes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProcessViewModel"
+            },
+            "description": "Lista de Protocolos",
+            "nullable": true
+          },
+          "total_records": {
+            "type": "integer",
+            "description": "Total de Registros",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modelo para uma lista de processos."
+      },
+      "ProcessStatusEnum": {
+        "enum": [
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "description": "Define os status disponíveis para um processo.",
+        "format": "int32"
+      },
+      "ProcessTypeEnum": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "type": "integer",
+        "description": "Define os tipos de processos disponíveis no sistema.",
+        "format": "int32"
+      },
+      "ProcessViewModel": {
+        "type": "object",
+        "properties": {
+          "protocol": {
+            "type": "string",
+            "description": "Protocolo do processo.",
+            "nullable": true
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "ID do cliente associado ao processo.",
+            "nullable": true
+          },
+          "correlation_id": {
+            "type": "string",
+            "description": "ID de correlação do processo.",
+            "format": "uuid"
+          },
+          "process_status": {
+            "$ref": "#/components/schemas/ProcessStatusEnum"
+          },
+          "process_type": {
+            "$ref": "#/components/schemas/ProcessTypeEnum"
+          },
+          "start_time": {
+            "type": "string",
+            "description": "Data de início do processo.",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "Data de encerramento do processo.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ip": {
+            "type": "string",
+            "description": "Endereço IP associado ao processo.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Modelo de processo."
+      },
+      "RegisterDataScopeView": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "description": "ID do usuário associado a esta visão de dados.",
+            "nullable": true
+          },
+          "persons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonView"
+            },
+            "description": "Lista de personas associadas a esta visão de dados.",
+            "nullable": true
+          },
+          "has_full_view": {
+            "type": "boolean",
+            "description": "Indica se o usuário tem uma visualização total dos usuários."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa o escopo de uma visão de dados pertencente a um usuário."
+      },
+      "ReprocessDataValidation": {
+        "type": "object",
+        "properties": {
+          "correlation_id": {
+            "type": "string",
+            "description": "Identificador de correlação.\r\nUtilizado para correlacionar eventos relacionados entre si.",
+            "format": "uuid"
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Identificador do cliente.\r\nEste identificador pode ser utilizado para associar o evento a um cliente específico no sistema.",
+            "nullable": true
+          },
+          "id_call_manager": {
+            "type": "string",
+            "description": "Identificador da chamada ao Bureau relacionada a validação.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa a validação de dados para reprocessamento.\r\nHerda de Registration.Backoffice.Domain.Model.EventStateBase que serve como um modelo básico para eventos de integração do cliente."
+      },
+      "ResponseModelBoolean": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "boolean",
+            "description": "Os dados retornados na resposta."
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "ResponseModelBureauPendencyTrackRecord": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/BureauPendencyTrackRecord"
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "ResponseModelCustomerUpdatePendencyTrackRecord": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CustomerUpdatePendencyTrackRecord"
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "ResponseModelCustomerUpdateValidateFields": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CustomerUpdateValidateFields"
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "ResponseModelListBureauPendencyTrackRecordLookUp": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BureauPendencyTrackRecordLookUp"
+            },
+            "description": "Os dados retornados na resposta.",
+            "nullable": true
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "ResponseModelListCustomerState": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerState"
+            },
+            "description": "Os dados retornados na resposta.",
+            "nullable": true
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "ResponseModelListDictionaryStringObject": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": { }
+            },
+            "description": "Os dados retornados na resposta.",
+            "nullable": true
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "ResponseModelPersonViewModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PersonViewModel"
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "ResponseModelRegisterDataScopeView": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RegisterDataScopeView"
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "ResponseModelString": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "Os dados retornados na resposta.",
+            "nullable": true
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "ResponseModelTModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/TModel"
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Indica se ocorreu um erro na operação."
+          },
+          "error_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfo"
+            },
+            "description": "Informações adicionais sobre o erro, se houver.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de resposta genérico."
+      },
+      "SimpleCustomerViewModel": {
+        "type": "object",
+        "properties": {
+          "customer_id": {
+            "type": "string",
+            "description": "O identificador do cliente.\r\nEste campo pode ser utilizado para referenciar o cliente específico.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "O nome do cliente.\r\nEste campo contém o nome completo do cliente.",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "O endereço de e-mail do cliente.\r\nEste campo pode ser utilizado para comunicação com o cliente.",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "description": "O estado atual do cliente.\r\nEste campo pode indicar a situação do cliente no sistema.",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "description": "A data e hora em que o cliente foi criado no sistema.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Representa um modelo de visualização simples para informações de cliente.\r\nContém detalhes básicos sobre o cliente, incluindo identificação e dados de contato."
+      },
+      "SincadStatus": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "StateEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "TModel": {
+        "type": "object",
+        "additionalProperties": false
+      }
+    }
+  }
+}
