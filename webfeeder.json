@@ -1,0 +1,2861 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Market Data",
+    "description": "A API Market Data fornece informações sobre os ativos do mercado financeiro, que são disponibilizadas através de diversas funcionalidades, dentre elas: Cotações de ativos, Livro de ofertas, Gráficos de ativos, Notícias, Negócios Realizados, Volume por preço e Ranking de corretoras.",
+    "contact": {
+      "name": "Acesse a documentação técnica",
+      "url": "https://docs.cedrotech.com/reference"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://webfeeder.cedrotech.com/"
+    },
+    {
+      "url": "http://a49a838fd5c4911eabfb002261cca0f3-920823783.sa-east-1.elb.amazonaws.com/"
+    }
+  ],
+  "paths": {
+    "/SignIn": {
+      "post": {
+        "tags": [
+          "Autenticação em Market Data"
+        ],
+        "summary": "Autenticação",
+        "description": "Através deste recurso é possível realizar a autenticação na aplicação.",
+        "parameters": [
+          {
+            "name": "login",
+            "in": "query",
+            "description": "Nome de usuário para a autenticação",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "Senha para se conectar na aplicação",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Autenticado com sucesso. O ID da sessão é retornado em um cookie. Você precisa incluir esse cookie nas solicitações subsequentes. Retorno do ID da sessão em formato booleano (true ou false).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "Retorno do ID da sessão em formato booleano (true ou false)."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Método não encontrado"
+          },
+          "405": {
+            "description": "Método não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo hábil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        },
+        "security": []
+      }
+    },
+    "/services/quotes/quote/{codAtivo}": {
+      "get": {
+        "tags": [
+          "Cotação de ativos"
+        ],
+        "summary": "Consulta de cotação de ativo",
+        "description": "Através deste recurso é possível consultar dados referentes ao ativo ou ativos solicitados.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Código(s) do(s) ativo(s) que deseja consultar as informações (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": true,
+            "schema": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_quote"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/services/quotes/highList/{indice}": {
+      "get": {
+        "tags": [
+          "Cotação de ativos"
+        ],
+        "summary": "Consulta das maiores altas",
+        "description": "Através deste recurso é possível visualizar uma lista com os 10 ativos com as maiores altas do dia de determinado índice.",
+        "parameters": [
+          {
+            "name": "indice",
+            "in": "path",
+            "description": "Código do índice de mercado (Exemplo: IBOV)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_quoteHighFallList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/services/quotes/fallList/{indice}": {
+      "get": {
+        "tags": [
+          "Cotação de ativos"
+        ],
+        "summary": "Consulta das maiores baixas",
+        "description": "Através deste recurso é possível visualizar uma lista com os 10 ativos de determinado índice com as maiores baixas do dia.",
+        "parameters": [
+          {
+            "name": "indice",
+            "in": "path",
+            "description": "Código do índice mercado. (Exemplo: IBOV)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_quoteHighFallList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/services/quotes/listMarket": {
+      "get": {
+        "tags": [
+          "Cotação de ativos"
+        ],
+        "summary": "Consulta à lista de mercados",
+        "description": "Através deste recurso é possível visualizar uma lista de todos os mercados disponíveis.",
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_listMarket"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/services/quotes/companyQuotes": {
+      "get": {
+        "tags": [
+          "Cotação de ativos"
+        ],
+        "summary": "Consulta à lista de papéis por empresa",
+        "description": "Através deste recurso é possível visualizar uma lista de papéis de uma determinada empresa.",
+        "parameters": [
+          {
+            "name": "company",
+            "in": "query",
+            "description": "Nome da empresa. (Exemplo: \"PETROBRAS\")",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "types",
+            "in": "query",
+            "description": "Tipo do ativo = 1(à vista), 2(opções), 3(índice), 7(Forex), 10(NYSE)",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "markets",
+            "in": "query",
+            "description": "ID do mercado = 1(Bovespa), 3(BMF), 6(Soma)",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_companyQuotes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil",
+            "content": {}
+          }
+        },
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited"
+      }
+    },
+    "/services/quotes/quotesIndex/{codMercado}/{indice}": {
+      "get": {
+        "tags": [
+          "Cotação de ativos"
+        ],
+        "summary": "Consulta à lista de ativos de um índice",
+        "description": "Através deste recurso é possível consultar todos os valores dos ativos de um determinado índice de um determinado mercado.",
+        "parameters": [
+          {
+            "name": "codMercado",
+            "in": "path",
+            "description": "Código do mercado. (Exemplo: BOVESPA)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "indice",
+            "in": "path",
+            "description": "Código do índice (Exemplo: IBOV)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_quotesIndex"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/services/quotes/optionsQuote/{codAtivo}": {
+      "get": {
+        "tags": [
+          "Cotação de ativos"
+        ],
+        "summary": "Consulta à lista de opções de um ativo",
+        "description": "Através deste recurso é possível consultar as opções de um determinado ativo.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "código do ativo (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_optionsQuote"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/services/quotes/indexList": {
+      "get": {
+        "tags": [
+          "Cotação de ativos"
+        ],
+        "summary": "Consulta à lista de índices de um mercado",
+        "description": "Através deste recurso é possível consultar o recebimento da lista de índices de um determinado mercado",
+        "parameters": [
+          {
+            "name": "marketcode",
+            "in": "query",
+            "description": "ID do mercado = 1(Bovespa), 3(BMF), 4(Indices), 5(Money), 6(Soma), 8(Indicators), 13(CFD)",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_indexList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/services/quotes/quoteInformation": {
+      "get": {
+        "tags": [
+          "Cotação de ativos"
+        ],
+        "summary": "Consulta às informações de um ativo",
+        "description": "Através deste recurso é possível consultar informações de um determinado ativo.",
+        "parameters": [
+          {
+            "name": "description",
+            "in": "query",
+            "description": "Código do ativo (Exemplo: PETR4)",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_quoteInformation"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/services/quotes/book/{codAtivo}": {
+      "get": {
+        "tags": [
+          "Livro de ofertas"
+        ],
+        "summary": "Consulta do livros de ofertas",
+        "description": "Através deste recurso é possível consultar o livro de ofertas de um determinado ativo.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Código do ativo (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_book"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          }
+        },
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited"
+      }
+    },
+    "/services/quotes/miniBook/{codAtivo}": {
+      "get": {
+        "tags": [
+          "Livro de ofertas"
+        ],
+        "summary": "Consulta de melhores ofertas do livro de ofertas",
+        "description": "Através deste recurso é possível consultar as melhores ofertas de um determinado ativo.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Código do ativo (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_miniBook"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          }
+        },
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited"
+      }
+    },
+    "/services/quotes/aggregatedBook/{codAtivo}": {
+      "get": {
+        "tags": [
+          "Livro de ofertas"
+        ],
+        "summary": "Consulta do livro de ofertas agregado",
+        "description": "Através deste recurso é possível consultar do livro de ofertas agregado de um determinado ativo.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Código do ativo (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_aggregatedBook"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          }
+        },
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited"
+      }
+    },
+    "/services/quotes/candleLast/{codAtivo}/{periodoBusca}/{qtdeCandles}": {
+      "get": {
+        "tags": [
+          "Gráficos de ativos"
+        ],
+        "summary": "Consulta de uma determinada quantidade de candles",
+        "description": "Através deste recurso é possível consultar uma lista de quantidade solicitada de candles de um determinado ativo.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Código do ativo para a consulta de candles (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "periodoBusca",
+            "in": "path",
+            "description": "Período de tempo para a consulta dos candles (Obs: Período de tempo em minutos, 1 hora, 1 dia, 1 semana ou 1 mês)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "qtdeCandles",
+            "in": "path",
+            "description": "Quantidade de candles a ser consultada",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_candleLast"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          }
+        },
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited"
+      }
+    },
+    "/services/quotes/candleDate/{codAtivo}/{periodoBusca}/{dataInicial}/{dataFinal}": {
+      "get": {
+        "tags": [
+          "Gráficos de ativos"
+        ],
+        "summary": "Consulta de candles por período (data inicial e final)",
+        "description": "Através deste recurso é possível consultar uma lista de candles de um determinado ativo entre as datas informadas.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Quantidade de candles a ser consultada",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "periodoBusca",
+            "in": "path",
+            "description": "Período de tempo para a consulta dos candles (Obs: Período de tempo em minutos, 1 hora, 1 dia, 1 semana ou 1 mês)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataInicial",
+            "in": "path",
+            "description": "Data inicial para a consulta dos candles (Obs: A data deve ser inserida no seguinte formato: <yyyyMMddHHmm>)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataFinal",
+            "in": "path",
+            "description": "Data final para a consulta dos candles (Obs: A data deve ser inserida no seguinte formato: <yyyyMMddHHmm>)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_candleDate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          }
+        },
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited"
+      }
+    },
+    "/services/news/newsByDate/{dataInicial}/{dataFinal}": {
+      "get": {
+        "tags": [
+          "Notícias do mercado"
+        ],
+        "summary": "Consulta de notícias por período",
+        "description": "Através deste recurso é possível consultar as principais notícias do mercado por um determinado período.",
+        "parameters": [
+          {
+            "name": "dataInicial",
+            "in": "path",
+            "description": "Data inicial (Obs: Informar a data no DDMMYYYY ou DDMMYYYYHHMMSS)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataFinal",
+            "in": "path",
+            "description": "Data final (Obs: Informar a data no DDMMYYYY ou DDMMYYYYHHMMSS)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_news"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          }
+        }
+      }
+    },
+    "/services/news/newsByCode/{codNoticia}": {
+      "get": {
+        "tags": [
+          "Notícias do mercado"
+        ],
+        "summary": "Consulta de notícias por código",
+        "description": "Através deste recurso é possível consultar as principais notícias do mercado com base no código informado.",
+        "parameters": [
+          {
+            "name": "codNoticia",
+            "in": "path",
+            "description": "Código da notícia (Exemplo: 1070292)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_newsByCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          }
+        }
+      }
+    },
+    "/services/news/newsByAgency/{codAgencia}": {
+      "get": {
+        "tags": [
+          "Notícias do mercado"
+        ],
+        "summary": "Consulta de notícias por código de agência",
+        "description": "Através deste recurso é possível consultar todas as notícias que contenham o código da agência informada.",
+        "parameters": [
+          {
+            "name": "codAgencia",
+            "in": "path",
+            "description": "Código da agência (Exemplo: 3 - Agência Bovespa ou 4 - Agência BMF)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_news"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          }
+        }
+      }
+    },
+    "/services/news/newsLast/{qtdeNoticias}": {
+      "get": {
+        "tags": [
+          "Notícias do mercado"
+        ],
+        "summary": "Consulta à uma quantidade determinada de notícias",
+        "description": "Através deste recurso é possível consultar as notícias pela quantidade solicitada, sendo limitada a cem notícias.",
+        "parameters": [
+          {
+            "name": "qtdeNoticias",
+            "in": "path",
+            "description": "Quantidade de notícias a serem retornadas",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_news"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          }
+        }
+      }
+    },
+    "/services/news/newsRelevantFacts/{dataInicial}/{dataFinal}": {
+      "get": {
+        "tags": [
+          "Notícias do mercado"
+        ],
+        "summary": "Consulta a fatos relevantes por período",
+        "description": "Através deste recurso é possível consultar as notícias contidas entre a data inicial informada e a data final que contenham o texto \"fato relevante\" ou \"fatos relevantes\" na sua descrição ou título, sendo ela limitada a cem notícias.",
+        "parameters": [
+          {
+            "name": "dataInicial",
+            "in": "path",
+            "description": "Data inicial para a consulta de notícias por período (Obs: Informar a data no formato DDMMYYYY ou DDMMYYYYHHMMSS.)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataFinal",
+            "in": "path",
+            "description": "Data final para a consulta de notícias por período (Obs: Informar a data no formato DDMMYYYY ou DDMMYYYYHHMMSS.)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_news"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          }
+        }
+      }
+    },
+    "/services/news/newsRelevantFactsByQuote/{dataInicial}/{dataFinal}/{codAtivo}": {
+      "get": {
+        "tags": [
+          "Notícias do mercado"
+        ],
+        "summary": "Consulta a fatos relevantes de um ativo por período",
+        "description": "Através deste recurso é possível consultar as notícias mais relevantes por ativo.",
+        "parameters": [
+          {
+            "name": "dataInicial",
+            "in": "path",
+            "description": "Data inicial para a consulta de notícias por período (Obs: Informar a data no formato DDMMYYYY ou DDMMYYYYHHMMSS.)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataFinal",
+            "in": "path",
+            "description": "Data final para a consulta de notícias por período (Obs: Informar a data no formato DDMMYYYY ou DDMMYYYYHHMMSS.)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Código do ativo para a consulta de notícas por período informado (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_news"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          }
+        }
+      }
+    },
+    "/services/news/newsRelevantFactsByAgency/{dataInicial}/{dataFinal}/{codAgencias}": {
+      "get": {
+        "tags": [
+          "Notícias do mercado"
+        ],
+        "summary": "Consulta a fatos relevantes de uma agência por período",
+        "description": "Através deste recurso é possível consultar as notícias mais relevantes por agência.",
+        "parameters": [
+          {
+            "name": "dataInicial",
+            "in": "path",
+            "description": "Data inicial para a consulta de notícias por período (Obs: Informar a data no formato DDMMYYYY ou DDMMYYYYHHMMSS.)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataFinal",
+            "in": "path",
+            "description": "Data final para a consulta de notícias por período (Obs: Informar a data no formato DDMMYYYY ou DDMMYYYYHHMMSS.)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "codAgencias",
+            "in": "path",
+            "description": "Código das agências separados por hífen \"-\" (3 - Agência Bovespa ou 4 - Agência BMF). Exemplo: 1-3-4",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_news"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          }
+        }
+      }
+    },
+    "/services/news/newsAgency": {
+      "get": {
+        "tags": [
+          "Notícias do mercado"
+        ],
+        "summary": "Consulta à lista de agências de notícias",
+        "description": "Através deste recurso é possível consultar as agências de notícias disponíveis.",
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_newsAgency"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          }
+        }
+      }
+    },
+    "/services/news/newsQuery/{dataInicial}/{dataFinal}/{palavraChave}": {
+      "get": {
+        "tags": [
+          "Notícias do mercado"
+        ],
+        "summary": "Consulta de notícias que contém um texto específico",
+        "description": "Através deste recurso é possível consultar as notícias em um período entre datas que contenha o texto no título ou na descrição.",
+        "parameters": [
+          {
+            "name": "dataInicial",
+            "in": "path",
+            "description": "Data inicial para a consulta de notícias por período no formato DDMMYYYY ou DDMMYYYYHHMMSS. (Obs: Para omitir a data passa o valor \"-\".)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataFinal",
+            "in": "path",
+            "description": "Data inicial para a consulta de notícias por período no formato DDMMYYYY ou DDMMYYYYHHMMSS. (Obs: Para omitir a data passa o valor \"-\".)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "palavraChave",
+            "in": "path",
+            "description": "Palavra-chave ou termo a ser buscado nas notícias",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_news"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          }
+        }
+      }
+    },
+    "/services/quotes/quoteTimesTrade/{codAtivo}/{indicadorNegocio}/{limite}/{offset}/{dataInicial}/{dataFinal}": {
+      "get": {
+        "tags": [
+          "Negócios realizados"
+        ],
+        "summary": "Consulta de negócios realizados por período",
+        "description": "Através deste recurso é possível consultar dados sobre as cotações do ativo.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Código do ativo (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "indicadorNegocio",
+            "in": "path",
+            "description": "Valor do indicador do negócio (Exemplo: 1 = Indica negócio / 0 = Indica qualquer cotação)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "path",
+            "description": "Valor do limite",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "path",
+            "description": "Valor do offeset (margem de execução de disparo)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataInicial",
+            "in": "path",
+            "description": "Data inicial para a consulta de cotações no formato yyyymmdd ou yyyymmddHHmm ",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataFinal",
+            "in": "path",
+            "description": "Data final para a consulta de cotações no formato yyyymmdd ou yyyymmddHHmm",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_quoteTimesTrade"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          }
+        },
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited"
+      }
+    },
+    "/services/quotes/quoteTimesTradeDate/{codAtivo}/{data}": {
+      "get": {
+        "tags": [
+          "Negócios realizados"
+        ],
+        "summary": "Consulta de negócios realizados por data",
+        "description": "Através deste recurso é possível consultar dados referente às cotações do ativo com base na data selecionada.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Código do ativo (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "data",
+            "in": "path",
+            "description": "Data para a consulta de cotações",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "O response é uma lista de objetos zipada e convertida em base64 retornando uma string."
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil",
+            "content": {}
+          }
+        },
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited"
+      }
+    },
+    "/services/quotes/volumeAtPrice/{codAtivo}": {
+      "get": {
+        "tags": [
+          "Volume por preço"
+        ],
+        "summary": "Consulta de volume negocioado por preço",
+        "description": "Através deste recurso é possível consultar o volume negociado por um ativo em determinado valor.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Código do ativo (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_volumeAtPrice"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/services/quotes/crossRanking/{codMercado}/{codCorretora}": {
+      "get": {
+        "tags": [
+          "Ranking de corretoras"
+        ],
+        "summary": "Consulta de cross ranking por corretora",
+        "description": "Através deste recursos é possível consultar uma lista de cross ranking de uma determinada corretora.",
+        "parameters": [
+          {
+            "name": "codMercado",
+            "in": "path",
+            "description": "Nome do mercado. (Exemplo: BOVESPA)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "codCorretora",
+            "in": "path",
+            "description": "Código da corretora na bolsa de valores",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_crossRanking"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        }
+      }
+    },
+    "/services/quotes/playerRanking/{codAtivo}": {
+      "get": {
+        "tags": [
+          "Ranking de corretoras"
+        ],
+        "summary": "Consulta de ranking de corretoras por ativo",
+        "description": "Através deste recurso é possível consultar uma lista de ranking de corretoras por ativo.",
+        "parameters": [
+          {
+            "name": "codAtivo",
+            "in": "path",
+            "description": "Código do ativo (Exemplo: PETR4)",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_playerRanking"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado"
+          },
+          "404": {
+            "description": "Metodo não encontrado"
+          },
+          "405": {
+            "description": "Metodo não permitido"
+          },
+          "408": {
+            "description": "Serviço não retornou em tempo habil"
+          },
+          "504": {
+            "description": "Gateway Timeout"
+          }
+        },
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "response_quote": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "timeUpdate": {
+            "type": "string",
+            "description": "Data e hora da última atualização",
+            "format": "date-time"
+          },
+          "dateTrade": {
+            "type": "string",
+            "description": "Data e hora do último negócio do ativo",
+            "format": "date-time"
+          },
+          "lastTrade": {
+            "type": "number",
+            "description": "Último preço"
+          },
+          "previous": {
+            "type": "number",
+            "description": "Preço de fechamento do dia anterior"
+          },
+          "change": {
+            "type": "number",
+            "description": "Variação do dia"
+          },
+          "changeWeek": {
+            "type": "number",
+            "description": "Variação semanal"
+          },
+          "changeMonth": {
+            "type": "number",
+            "description": "Variação mensal"
+          },
+          "changeYear": {
+            "type": "number",
+            "description": "Variação anual"
+          },
+          "bid": {
+            "type": "number",
+            "description": "Preço na compra"
+          },
+          "ask": {
+            "type": "number",
+            "description": "Preço na venda"
+          },
+          "timeLastTrade": {
+            "type": "string",
+            "description": "Data e hora do último negócio"
+          },
+          "dateTradeObj": {
+            "type": "string",
+            "description": "Data da última modificação"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantidade do negócio atual"
+          },
+          "quantityLast": {
+            "type": "number",
+            "description": "Quantidade do último negócio"
+          },
+          "quantityTrades": {
+            "type": "number",
+            "description": "Quantidade de negócios realizados"
+          },
+          "volumeAmount": {
+            "type": "number",
+            "description": "Volume quantitativo dos negócios"
+          },
+          "volumeFinancier": {
+            "type": "number",
+            "description": "Volume financeiro dos negócios"
+          },
+          "high": {
+            "type": "number",
+            "description": "Máxima do dia"
+          },
+          "low": {
+            "type": "number",
+            "description": "Mínima do dia"
+          },
+          "open": {
+            "type": "number",
+            "description": "Preço de abertura"
+          },
+          "timeBid": {
+            "type": "number",
+            "description": "Horário da melhor oferta de compra"
+          },
+          "timeAsk": {
+            "type": "number",
+            "description": "Horário da melhor oferta de venda"
+          },
+          "volumeBid": {
+            "type": "number",
+            "description": "Volume acumulado das melhores ofertas de compra"
+          },
+          "volumeAsk": {
+            "type": "number",
+            "description": "Volume acumulado das melhores ofertas de venda"
+          },
+          "volumeBetterBid": {
+            "type": "number",
+            "description": "Volume da melhor oferta de compra"
+          },
+          "volumeBetterAsk": {
+            "type": "number",
+            "description": "Volume da melhor oferta de venda"
+          },
+          "lastTradeLastWeek": {
+            "type": "number",
+            "description": "Preço de fechamento da última semana"
+          },
+          "lastTradeLastMonth": {
+            "type": "number",
+            "description": "Preço de fechamento do último mês"
+          },
+          "lastTradeLastYear": {
+            "type": "number",
+            "description": "Preço de fechamento do último ano"
+          },
+          "playerBid": {
+            "type": "number",
+            "description": "Código da corretora de compra"
+          },
+          "interest": {
+            "type": "number",
+            "description": "Quantidade de contratos abertos"
+          },
+          "situation": {
+            "type": "number",
+            "description": "Estado do ativo"
+          },
+          "average": {
+            "type": "number",
+            "description": "Preço médio do dia"
+          },
+          "execPrice": {
+            "type": "number",
+            "description": "Preço do exercício"
+          },
+          "tickSize": {
+            "type": "integer",
+            "description": "Quantidade de casas decimais do papel"
+          },
+          "timeLastTradeSting": {
+            "type": "number",
+            "description": "Horário do último negócio"
+          },
+          "dateLastTradeString": {
+            "type": "number",
+            "description": "Data do último negócio"
+          },
+          "marketCode": {
+            "type": "integer",
+            "description": "Código do mercado"
+          },
+          "contractMultiplier": {
+            "type": "number",
+            "description": "Fator de multiplicação"
+          },
+          "volumeAverageLast20Days": {
+            "type": "number",
+            "description": "Volume médio dos últimos 20 dias"
+          },
+          "marketCap": {
+            "type": "number",
+            "description": "Valor total de todas as ações da empresa"
+          },
+          "variation7Days": {
+            "type": "number",
+            "description": "Variação semanal"
+          },
+          "variation1Month": {
+            "type": "number",
+            "description": "Variação mensal"
+          },
+          "variation1Year": {
+            "type": "number",
+            "description": "Variação anual"
+          },
+          "variationVolumeInHour": {
+            "type": "number",
+            "description": "Variação em uma hora"
+          },
+          "variationVolumeToHour": {
+            "type": "number",
+            "description": "Variação na última hora"
+          },
+          "variationVolumeInDay": {
+            "type": "number",
+            "description": "Variação em um dia"
+          },
+          "theoryPrice": {
+            "type": "number",
+            "description": "Preço teórico"
+          },
+          "theoryQuantity": {
+            "type": "number",
+            "description": "Quantidade teórica"
+          },
+          "loteDefault": {
+            "type": "integer",
+            "description": "Lote padrão"
+          },
+          "minIntervalIncrPrice": {
+            "type": "number",
+            "description": "Incremento mínimo"
+          },
+          "quotationForm": {
+            "type": "integer",
+            "description": "Forma de cotação"
+          },
+          "adjustmentDay": {
+            "type": "number",
+            "description": "Ajuste"
+          },
+          "adjustmentPreviousDay": {
+            "type": "number",
+            "description": "Ajuste anterior"
+          },
+          "company": {
+            "type": "string",
+            "description": "Nome da empresa"
+          },
+          "typeOption": {
+            "type": "string",
+            "description": "Tipo da opção"
+          },
+          "directionOption": {
+            "type": "string",
+            "description": "Opção de direção"
+          },
+          "parentSymbol": {
+            "type": "string",
+            "description": "Código do ativo principal"
+          },
+          "securityType": {
+            "type": "string",
+            "description": "Tipo do ativo"
+          },
+          "assetGroupPhase": {
+            "type": "string",
+            "description": "Estágio do grupo do ativo"
+          }
+        }
+      },
+      "response_quoteHighFallList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/response_quoteHighFallList_inner"
+        }
+      },
+      "response_listMarket": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Código do mercado"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do mercado"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição sobre a lista de mercado"
+          },
+          "marketDataBase": {
+            "type": "string",
+            "description": "Nome base do mercado"
+          },
+          "isPublic": {
+            "type": "string",
+            "description": "Informa se a lista do mercado é pública ou não (Exemplo: true ou false)"
+          }
+        }
+      },
+      "response_companyQuotes": {
+        "type": "object",
+        "properties": {
+          "quotesDescription": {
+            "type": "string",
+            "description": "Lista com os códigos dos ativos da empresa solicitada"
+          }
+        }
+      },
+      "response_quotesIndex": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "timeUpdate": {
+            "type": "string",
+            "description": "Data e hora da última atualização"
+          },
+          "dateTrade": {
+            "type": "string",
+            "description": "Data e hora do último negócio do ativo"
+          },
+          "lastTrade": {
+            "type": "number",
+            "description": "Último preço"
+          },
+          "previous": {
+            "type": "number",
+            "description": "Preço de fechamento do dia anterior"
+          },
+          "change": {
+            "type": "number",
+            "description": "Variação do dia"
+          },
+          "changeWeek": {
+            "type": "number",
+            "description": "Variação semanal"
+          },
+          "changeMonth": {
+            "type": "number",
+            "description": "Variação mensal"
+          },
+          "changeYear": {
+            "type": "number",
+            "description": "Variação anual"
+          },
+          "bid": {
+            "type": "number",
+            "description": "Preço na compra"
+          },
+          "ask": {
+            "type": "number",
+            "description": "Preço na venda"
+          },
+          "timeLastTrade": {
+            "type": "string",
+            "description": "Data e hora do último negócio"
+          },
+          "dateTradeObj": {
+            "type": "string",
+            "description": "Data da última modificação"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantidade do negócio atual"
+          },
+          "quantityLast": {
+            "type": "number",
+            "description": "Quantidade do último negócio"
+          },
+          "quantityTrades": {
+            "type": "number",
+            "description": "Quantidade de negócios realizados"
+          },
+          "volumeAmount": {
+            "type": "number",
+            "description": "Volume quantitativo dos negócios"
+          },
+          "volumeFinancier": {
+            "type": "number",
+            "description": "Volume financeiro dos negócios"
+          },
+          "high": {
+            "type": "number",
+            "description": "Máxima do dia"
+          },
+          "low": {
+            "type": "number",
+            "description": "Mínima do dia"
+          },
+          "open": {
+            "type": "number",
+            "description": "Preço de abertura"
+          },
+          "timeBid": {
+            "type": "string",
+            "description": "Horário da melhor oferta de compra"
+          },
+          "timeAsk": {
+            "type": "string",
+            "description": "Horário da melhor oferta de venda"
+          },
+          "volumeBid": {
+            "type": "number",
+            "description": "Volume acumulado das melhores ofertas de compra"
+          },
+          "volumeAsk": {
+            "type": "number",
+            "description": "Volume acumulado das melhores ofertas de venda"
+          },
+          "volumeBetterBid": {
+            "type": "number",
+            "description": "Volume da melhor oferta de compra"
+          },
+          "volumeBetterAsk": {
+            "type": "number",
+            "description": "Volume da melhor oferta de venda"
+          },
+          "lastTradeLastWeek": {
+            "type": "number",
+            "description": "Preço de fechamento da última semana"
+          },
+          "lastTradeLastMonth": {
+            "type": "number",
+            "description": "Preço de fechamento do último mês"
+          },
+          "lastTradeLastYear": {
+            "type": "number",
+            "description": "Preço de fechamento do último ano"
+          },
+          "playerBid": {
+            "type": "number",
+            "description": "Código da corretora de compra"
+          },
+          "interest": {
+            "type": "number",
+            "description": "Quantidade de contratos abertos"
+          },
+          "situation": {
+            "type": "number",
+            "description": "Estado do ativo"
+          },
+          "average": {
+            "type": "number",
+            "description": "Preço médio do dia"
+          },
+          "execPrice": {
+            "type": "number",
+            "description": "Preço do exercício"
+          },
+          "tickSize": {
+            "type": "integer",
+            "description": "Quantidade de casas decimais do papel"
+          },
+          "timeLastTradeSting": {
+            "type": "string",
+            "description": "Horário do último negócio"
+          },
+          "dateLastTradeString": {
+            "type": "string",
+            "description": "Data do último negócio"
+          },
+          "marketCode": {
+            "type": "integer",
+            "description": "Código do mercado"
+          },
+          "contractMultiplier": {
+            "type": "number",
+            "description": "Fator de multiplicação"
+          },
+          "volumeAverageLast20Days": {
+            "type": "number",
+            "description": "Volume médio dos últimos 20 dias"
+          },
+          "marketCap": {
+            "type": "number",
+            "description": "Valor total de todas as ações da empresa"
+          },
+          "variation7Days": {
+            "type": "number",
+            "description": "Variação semanal"
+          },
+          "variation1Month": {
+            "type": "number",
+            "description": "Variação mensal"
+          },
+          "variation1Year": {
+            "type": "number",
+            "description": "Variação anual"
+          },
+          "variationVolumeInHour": {
+            "type": "number",
+            "description": "Variação em uma hora"
+          },
+          "variationVolumeToHour": {
+            "type": "number",
+            "description": "Variação na última hora"
+          },
+          "variationVolumeInDay": {
+            "type": "number",
+            "description": "Variação em um dia"
+          },
+          "theoryPrice": {
+            "type": "number",
+            "description": "Preço teórico"
+          },
+          "theoryQuantity": {
+            "type": "number",
+            "description": "Quantidade teórica"
+          },
+          "loteDefault": {
+            "type": "integer",
+            "description": "Lote padrão"
+          },
+          "minIntervalIncrPrice": {
+            "type": "number",
+            "description": "Incremento mínimo"
+          },
+          "quotationForm": {
+            "type": "integer",
+            "description": "Forma de cotação"
+          },
+          "adjustmentDay": {
+            "type": "number",
+            "description": "Ajuste"
+          },
+          "adjustmentPreviousDay": {
+            "type": "number",
+            "description": "Ajuste anterior"
+          },
+          "company": {
+            "type": "string",
+            "description": "Nome da empresa"
+          },
+          "typeOption": {
+            "type": "string",
+            "description": "Tipo da opção"
+          },
+          "directionOption": {
+            "type": "string",
+            "description": "Opção de direção"
+          },
+          "parentSymbol": {
+            "type": "string",
+            "description": "Código do ativo principal"
+          },
+          "securityType": {
+            "type": "string",
+            "description": "Tipo do ativo"
+          }
+        }
+      },
+      "response_optionsQuote": {
+        "type": "object",
+        "properties": {
+          "quotesDescription": {
+            "type": "string",
+            "description": "Lista com os códigos dos ativos da empresa solicitada"
+          }
+        }
+      },
+      "response_indexList": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Código do índice do mercado do mercado solicitado"
+          },
+          "description": {
+            "type": "string",
+            "description": "Nome do índice do mercado solicitado. (Exemplo: IBOV, IBRA, IBXL, entre outros)"
+          }
+        }
+      },
+      "response_quoteInformation": {
+        "type": "object",
+        "properties": {
+          "marketCode": {
+            "type": "integer",
+            "description": "Código do mercado"
+          },
+          "quotesLotDefault": {
+            "type": "integer",
+            "description": "Lote padrão do ativo"
+          },
+          "quotesQuotationForm": {
+            "type": "integer",
+            "description": "Forma de cotação"
+          },
+          "quotesIsinPaper": {
+            "type": "string",
+            "description": "O campo quotesIsinPaper é o código único de identificação do ativo"
+          },
+          "companyName": {
+            "type": "string",
+            "description": "Nome da empresa"
+          },
+          "segmentName": {
+            "type": "string",
+            "description": "Segmento da empresa"
+          },
+          "typeQuotesCode": {
+            "type": "integer",
+            "description": "Código do tipo do ativo"
+          },
+          "classificationName": {
+            "type": "string",
+            "description": "Nome de classificação do ativo"
+          },
+          "quotesCurrencyDescription": {
+            "type": "string",
+            "description": "Moeda de cotação atual do ativo"
+          },
+          "quotesExpirationDate": {
+            "type": "string",
+            "description": "Data de expiração do ativo"
+          },
+          "stockOptionsPe": {
+            "type": "string",
+            "description": "Opção de compra de ações "
+          },
+          "stockOptionsYear": {
+            "type": "integer",
+            "description": "Opção de compra de ações por ano"
+          },
+          "quotesSpeak": {
+            "type": "string",
+            "description": "Palavra-chave do ativo"
+          },
+          "securityType": {
+            "type": "string",
+            "description": "Tipo do ativo"
+          }
+        }
+      },
+      "response_quoteHighFallList_inner": {
+        "type": "object",
+        "properties": {
+          "quote": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "price": {
+            "type": "number",
+            "description": "Preço"
+          },
+          "value": {
+            "type": "number",
+            "description": "Valor"
+          },
+          "date": {
+            "type": "string",
+            "description": "Data"
+          },
+          "volfin": {
+            "type": "number",
+            "description": "Volume financeiro dos negócios (R$)"
+          },
+          "change": {
+            "type": "number",
+            "description": "Variação (%)"
+          },
+          "qtdeNeg": {
+            "type": "number",
+            "description": "Quantidade negociada"
+          }
+        }
+      },
+      "response_quoteTimesTrade": {
+        "type": "object",
+        "properties": {
+          "preco": {
+            "type": "string",
+            "description": "Preço do negócio"
+          },
+          "quantidade": {
+            "type": "integer",
+            "description": "Quantidade do negócio"
+          },
+          "corretoraComprando": {
+            "type": "integer",
+            "description": "Identificador da corretora que efetuou a compra"
+          },
+          "corretoraVendendo": {
+            "type": "integer",
+            "description": "Identificador da corretora que efetuou a venda"
+          },
+          "bid": {
+            "type": "number",
+            "description": "Melhor oferta de compra"
+          },
+          "ask": {
+            "type": "number",
+            "description": "Melhor oferta de venda"
+          },
+          "volumeBid": {
+            "type": "number",
+            "description": "Volume acumulado das melhores ofertas de compra"
+          },
+          "volumeAsk": {
+            "type": "number",
+            "description": "Volume acumulado das melhores ofertas de venda"
+          },
+          "volumeBetterBid": {
+            "type": "number",
+            "description": "Volume da melhor oferta de compra"
+          },
+          "volumeBetterAsk": {
+            "type": "number",
+            "description": "Volume da melhor oferta de venda"
+          },
+          "indicadorNegocio": {
+            "type": "integer",
+            "description": "Indicador de negócio (Exemplo: 1 = Indica negócio, 2 = Indica qualquer cotação)"
+          },
+          "date": {
+            "type": "number",
+            "description": "Data e hora do negócio no formato: yyyymmddHHMMSS"
+          },
+          "identificadorNegocio": {
+            "type": "string",
+            "description": "Identificador do negócio (se o indicador de negócio for igual a 0, esse campo será vazio)"
+          }
+        }
+      },
+      "response_volumeAtPrice": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/response_volumeAtPrice_inner",
+              "description": "Ofertas de venda"
+            }
+          }
+        }
+      },
+      "response_volumeAtPrice_inner": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "price": {
+            "type": "number",
+            "description": "Preço do ativo negociado"
+          },
+          "businessQuantityBuy": {
+            "type": "number",
+            "description": "Quantidade de ativos negociados em compra"
+          },
+          "volumeBuy": {
+            "type": "number",
+            "description": "Volume de ativos negociados em compra"
+          },
+          "businessQuantitySell": {
+            "type": "string",
+            "description": "Quantidade de ativos negociados em venda"
+          },
+          "volumeSell": {
+            "type": "number",
+            "description": "Volume de ativos negociados em venda"
+          },
+          "clean": {
+            "type": "boolean",
+            "description": "Campo para informar se o volume foi zerado (Exemplo: true ou false)"
+          }
+        }
+      },
+      "response_crossRanking": {
+        "type": "object",
+        "properties": {
+          "quote": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "volumeFinancier": {
+            "type": "number",
+            "description": "Volume financeiro dos negócios"
+          },
+          "volumeAmount": {
+            "type": "number",
+            "description": "Volume acumulado dos negócios"
+          },
+          "quantityTrades": {
+            "type": "number",
+            "description": "Quantidade de negócios realizados"
+          },
+          "formattedQuantityTrades": {
+            "type": "number",
+            "description": "Quantidade de ativos negociados formatados"
+          },
+          "formattedVolumeFinancier": {
+            "type": "number",
+            "description": "Volume financeiro formatado dos negócios"
+          },
+          "formattedVolumeAmount": {
+            "type": "number",
+            "description": "Volume acumulado formatado dos negócios"
+          },
+          "type": {
+            "type": "string",
+            "description": "Tipo do ativo"
+          }
+        }
+      },
+      "response_playerRanking": {
+        "type": "object",
+        "properties": {
+          "playerCode": {
+            "type": "string",
+            "description": "Classificação do investidor"
+          },
+          "volumeFinancier": {
+            "type": "number",
+            "description": "Volume financeiro dos negócios"
+          },
+          "volumeAmount": {
+            "type": "number",
+            "description": "Volume acumulado dos negócios"
+          },
+          "quantityTrades": {
+            "type": "number",
+            "description": "Quantidade de negócios realizados"
+          },
+          "player": {
+            "type": "string",
+            "description": "Nome do investidor"
+          },
+          "formattedQuantityTrades": {
+            "type": "number",
+            "description": "Quantidade de ativos negociados formatados"
+          },
+          "formattedVolumeFinancier": {
+            "type": "number",
+            "description": "Volume financeiro formatado dos negócios"
+          },
+          "formattedVolumeAmount": {
+            "type": "number",
+            "description": "Volume acumulado formatado dos negócios"
+          },
+          "type": {
+            "type": "string",
+            "description": "Tipo do ativo"
+          }
+        }
+      },
+      "response_book": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "quoteName": {
+            "type": "string",
+            "description": "Nome do ativo"
+          },
+          "messageError": {
+            "type": "string",
+            "description": "Mensagem de erro (caso exista)"
+          },
+          "venda": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/response_book_venda",
+              "description": "Ofertas de venda"
+            }
+          },
+          "compra": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/response_book_venda",
+              "description": "Ofertas de compra"
+            }
+          }
+        }
+      },
+      "response_miniBook": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "quoteName": {
+            "type": "string",
+            "description": "Nome do ativo"
+          },
+          "messageError": {
+            "type": "string",
+            "description": "Mensagem de erro (caso exista)"
+          },
+          "venda": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/response_book_venda",
+              "description": "Ofertas de venda"
+            }
+          },
+          "compra": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/response_book_venda",
+              "description": "Ofertas de compra"
+            }
+          }
+        }
+      },
+      "response_aggregatedBook": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "quoteName": {
+            "type": "string",
+            "description": "Nome do ativo"
+          },
+          "messageError": {
+            "type": "string",
+            "description": "Mensagem de erro (caso exista)"
+          },
+          "venda": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/response_book_venda",
+              "description": "Ofertas de venda"
+            }
+          },
+          "compra": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/response_book_venda",
+              "description": "Ofertas de compra"
+            }
+          }
+        }
+      },
+      "response_book_venda": {
+        "type": "object",
+        "properties": {
+          "quote": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantidade negociada"
+          },
+          "value": {
+            "type": "number",
+            "description": "Preço de compra/venda"
+          },
+          "orderId": {
+            "type": "string",
+            "description": "ID da ordem"
+          },
+          "numberOffers": {
+            "type": "integer",
+            "description": "Quantidade de ofertas"
+          },
+          "playerCode": {
+            "type": "integer",
+            "description": "Código da corretora"
+          },
+          "volFin": {
+            "type": "number",
+            "description": "Volume financeiro dos negócios"
+          },
+          "volQuant": {
+            "type": "number",
+            "description": "Volume financeiro dos negócios (R$)"
+          },
+          "formattedQuantity": {
+            "type": "string",
+            "description": "Quantidade de ativos negociados formatados"
+          },
+          "valueType": {
+            "type": "string",
+            "description": "Tipo do valor"
+          }
+        },
+        "example": null
+      },
+      "response_candleLast": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "price": {
+            "type": "integer",
+            "description": "Preço do ativo negociado"
+          },
+          "open": {
+            "type": "integer",
+            "description": "Preço de abertura"
+          },
+          "high": {
+            "type": "integer",
+            "description": "Máxima do dia"
+          },
+          "low": {
+            "type": "integer",
+            "description": "Mínima do dia"
+          },
+          "previous": {
+            "type": "number",
+            "description": "Preço de fechamento do dia anterior"
+          },
+          "quantityTrades": {
+            "type": "number",
+            "description": "Quantidade de negócios realizados"
+          },
+          "volumeAmount": {
+            "type": "number",
+            "description": "Volume acumulado dos negócios"
+          },
+          "volumeFinancier": {
+            "type": "number",
+            "description": "Volume financeiro dos negócios"
+          },
+          "timeTrade": {
+            "type": "number",
+            "description": "Horário da negociação"
+          }
+        }
+      },
+      "response_candleDate": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Código do ativo"
+          },
+          "price": {
+            "type": "integer",
+            "description": "Preço do negócio"
+          },
+          "open": {
+            "type": "integer",
+            "description": "Preço de abertura"
+          },
+          "high": {
+            "type": "integer",
+            "description": "Máxima do dia"
+          },
+          "low": {
+            "type": "integer",
+            "description": "Mínima do dia"
+          },
+          "previous": {
+            "type": "number",
+            "description": "Preço de fechamento do dia anterior"
+          },
+          "quantityTrades": {
+            "type": "number",
+            "description": "Quantidade de negócios realizados"
+          },
+          "volumeAmount": {
+            "type": "number",
+            "description": "Volume acumulado dos negócios"
+          },
+          "volumeFinancier": {
+            "type": "number",
+            "description": "Volume financeiro dos negócios"
+          },
+          "timeTrade": {
+            "type": "number",
+            "description": "Horário da negociação"
+          }
+        }
+      },
+      "response_news": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "description": "Retornando quando ocorre erro e/ou exceptions."
+              },
+              "message": {
+                "type": "string",
+                "description": "Retornando quando ocorre erro e/ou exceptions."
+              },
+              "messageDetails": {
+                "type": "string",
+                "description": "Retornando quando ocorre erro e/ou exceptions."
+              }
+            }
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "newsCode": {
+                  "type": "integer",
+                  "description": "Código da notícia"
+                },
+                "agencyCode": {
+                  "type": "integer",
+                  "description": "Código da agência"
+                },
+                "agencyDescription": {
+                  "type": "string",
+                  "description": "Nome da agência"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Título da notícia"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Descrição/subtítulo da notícia"
+                },
+                "categoryCode": {
+                  "type": "integer",
+                  "description": "Código da categoria da notícia"
+                },
+                "shadowCode": {
+                  "type": "integer",
+                  "description": "Código do usuário"
+                },
+                "newsDate": {
+                  "type": "string",
+                  "description": "Data da notícia",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "response_newsByCode": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "description": "Retornando quando ocorre erro e/ou exceptions."
+              },
+              "message": {
+                "type": "string",
+                "description": "Retornando quando ocorre erro e/ou exceptions."
+              },
+              "messageDetails": {
+                "type": "string",
+                "description": "Retornando quando ocorre erro e/ou exceptions."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "newsCode": {
+                "type": "integer",
+                "description": "Código da notícia"
+              },
+              "agencyCode": {
+                "type": "integer",
+                "description": "Código da agência"
+              },
+              "agencyDescription": {
+                "type": "string",
+                "description": "Nome da agência"
+              },
+              "title": {
+                "type": "string",
+                "description": "Título da notícia"
+              },
+              "description": {
+                "type": "string",
+                "description": "Descrição/subtítulo da notícia"
+              },
+              "categoryCode": {
+                "type": "integer",
+                "description": "Código da categoria da notícia"
+              },
+              "shadowCode": {
+                "type": "integer",
+                "description": "Código do usuário"
+              },
+              "newsDate": {
+                "type": "string",
+                "description": "Data da notícia",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      },
+      "response_newsAgency": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "description": "Retornando quando ocorre erro e/ou exceptions."
+              },
+              "message": {
+                "type": "string",
+                "description": "Retornando quando ocorre erro e/ou exceptions."
+              },
+              "messageDetails": {
+                "type": "string",
+                "description": "Retornando quando ocorre erro e/ou exceptions."
+              }
+            }
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "agencyCode": {
+                  "type": "number",
+                  "description": "Código da agência"
+                },
+                "agencyDescription": {
+                  "type": "number",
+                  "description": "Nome da agência"
+                },
+                "agencySymbol": {
+                  "type": "string",
+                  "description": "Código da agência"
+                },
+                "agencyColor": {
+                  "type": "string",
+                  "description": "Cor da agência"
+                },
+                "agencyPublic": {
+                  "type": "string",
+                  "description": "Campo para informar se a agência é pública"
+                },
+                "agencyAnalysis": {
+                  "type": "string",
+                  "description": "Análise da agência"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
